@@ -11,9 +11,9 @@ logger = logging.getLogger(__name__)
 
 dotenv.load_dotenv()
 
-TOKEN = os.environ.get('TOKEN')  # Replace with your Bot Token
-PASSWORD = os.environ.get('PASSWORD')  # Set your password here
-OWNER_ID = os.environ.get('OWNER_ID')  # Set the owner's Telegram ID here
+TOKEN = os.getenv('TOKEN')  # Replace with your Bot Token
+PASSWORD = os.getenv('PASSWORD')  # Set your password here
+OWNER_ID = os.getenv('OWNER_ID')  # Set the owner's Telegram ID here
 
 # Store authenticated users and subscribers
 authenticated_users = set()
@@ -28,6 +28,7 @@ bot_data = {
     'description': 'A detailed description of the bot.',
     'pic': 'path_to_default_picture'  # Replace with the path to your picture
 }
+
 
 # Check if the user is the owner
 def is_owner(user_id):
