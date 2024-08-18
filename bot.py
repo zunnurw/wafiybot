@@ -1,5 +1,4 @@
 import os
-from telegram.constants import ParseMode
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, CallbackContext
 import logging
@@ -39,7 +38,7 @@ async def start(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
 
     if user_id in blocked_users:
-        await update.message.reply_text("You are blocked from using this bot.", parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("You are blocked from using this bot.")
         return
     
     keyboard = [
@@ -49,31 +48,31 @@ async def start(update: Update, context: CallbackContext) -> None:
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     if is_owner(user_id):
-        await update.message.reply_text("Welcome, Owner!", reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("Welcome, Owner!", reply_markup=reply_markup)
     else:
         if user_id in authenticated_users:
-            await update.message.reply_text("You're already authenticated!", reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("You're already authenticated!", reply_markup=reply_markup)
         else:
-            await update.message.reply_text("I'm alive! Please enter the password to proceed.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("I'm alive! Please enter the password to proceed.")
 
 # Password handling
 async def check_password(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
     
     if user_id in blocked_users:
-        await update.message.reply_text("You are blocked from using this bot.", parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("You are blocked from using this bot.")
         return
     
     if user_id == OWNER_ID:
         authenticated_users.add(user_id)  # Owner is always authenticated
-        await update.message.reply_text("Access granted! You can now use the bot.\n", parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("Access granted! You can now use the bot.\n")
     elif user_id not in authenticated_users:
         if update.message.text == PASSWORD:
             authenticated_users.add(user_id)
             subscribers.add(user_id)  # Automatically subscribe user upon authentication
-            await update.message.reply_text("Access granted! You can now use the bot.\n/start", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("Access granted! You can now use the bot.\n/start")
         else:
-            await update.message.reply_text("Incorrect password. Please try again.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("Incorrect password. Please try again.")
 
 # Settings handling
 async def settings(update: Update, context: CallbackContext) -> None:
@@ -84,7 +83,7 @@ async def settings(update: Update, context: CallbackContext) -> None:
             [InlineKeyboardButton("View All Subscribers", callback_data='view_subscribers_command')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        await update.callback_query.message.reply_text("Choose a setting to edit:", reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+        await update.callback_query.message.reply_text("Choose a setting to edit:", reply_markup=reply_markup)
         await update.callback_query.answer()
     else:
         await update.callback_query.answer(text="You are not admin.\n/start")
@@ -110,20 +109,20 @@ async def remove_subscriber(update: Update, context: CallbackContext) -> None:
             if user_to_remove:
                 subscribers.remove(user_to_remove)
                 authenticated_users.discard(user_to_remove)  # Remove authentication on unsubscribe
-                await update.message.reply_text(f"Subscriber @{username} has been removed.", parse_mode=ParseMode.MARKDOWN)
+                await update.message.reply_text(f"Subscriber @{username} has been removed.")
             else:
-                await update.message.reply_text(f"Subscriber @{username} not found.", parse_mode=ParseMode.MARKDOWN)
+                await update.message.reply_text(f"Subscriber @{username} not found.")
         else:
-            await update.message.reply_text("Please provide the username to remove. \nUsage: /remove_subscriber <username>", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("Please provide the username to remove. \nUsage: /remove_subscriber <username>")
     else:
-        await update.message.reply_text("You are not admin.\n/start", parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("You are not admin.\n/start")
 
 
 # View all subscribers
 async def view_subscribers(update: Update, context: CallbackContext) -> None:
     if is_owner(update.message.from_user.id):
         if not subscribers:
-            await update.message.reply_text("No subscribers found.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("No subscribers found.")
             return
         
         subscribers_text = f"Subscribers ({len(subscribers)} total):\n"
@@ -141,9 +140,9 @@ async def view_subscribers(update: Update, context: CallbackContext) -> None:
         # Split subscribers list into chunks if it exceeds the limit
         max_message_length = 4096
         for i in range(0, len(subscribers_text), max_message_length):
-            await update.message.reply_text(subscribers_text[i:i + max_message_length], parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text(subscribers_text[i:i + max_message_length])
     else:
-        await update.message.reply_text("You are not admin.\n/start", parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("You are not admin.\n/start")
 
 # Store all interacted users
 all_users = set()
@@ -152,7 +151,7 @@ async def start(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
 
     if user_id in blocked_users:
-        await update.message.reply_text("You are blocked from using this bot.", parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("You are blocked from using this bot.")
         return
 
     # Add user to all_users
@@ -165,28 +164,28 @@ async def start(update: Update, context: CallbackContext) -> None:
     reply_markup = InlineKeyboardMarkup(keyboard)
     
     if is_owner(user_id):
-        await update.message.reply_text("Welcome, Owner!", reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("Welcome, Owner!", reply_markup=reply_markup)
     else:
         if user_id in authenticated_users:
-            await update.message.reply_text("You're already authenticated!\nUse /off to pause your subscription.", reply_markup=reply_markup, parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("You're already authenticated!\nUse /off to pause your subscription.", reply_markup=reply_markup)
         else:
-            await update.message.reply_text("I'm alive! Please enter the password to proceed.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("I'm alive! Please enter the password to proceed.")
 
 async def post_message(update: Update, context: CallbackContext) -> None:
     if is_owner(update.message.from_user.id):
         if not context.args:
-            await update.message.reply_text("Please provide a message to post.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("Please provide a message to post.")
             return
 
         message_type = context.args[0].lower()
         content = ' '.join(context.args[1:])
 
         if message_type not in ['text', 'photo', 'document']:
-            await update.message.reply_text("Invalid message type. Use 'text', 'photo', or 'document'.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("Invalid message type. Use 'text', 'photo', or 'document'.")
             return
 
         if message_type in ['text', 'document'] and not content.strip():
-            await update.message.reply_text(f"{message_type.capitalize()} content cannot be empty.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text(f"{message_type.capitalize()} content cannot be empty.")
             return
 
         photo_url = content if message_type == 'photo' else None
@@ -217,11 +216,11 @@ async def post_message(update: Update, context: CallbackContext) -> None:
         posts[update.message.message_id] = {'type': message_type, 'content': content, 'reactions': {'like': 0, 'dislike': 0}, 'viewed_by': set()}
 
         if sent_count > 0:
-            await update.message.reply_text(f"{message_type.capitalize()} posted to {sent_count} users.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text(f"{message_type.capitalize()} posted to {sent_count} users.")
         if failed_count > 0:
-            await update.message.reply_text(f"Failed to send {message_type} to {failed_count} users.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text(f"Failed to send {message_type} to {failed_count} users.")
     else:
-        await update.message.reply_text("You are not admin.\n/start", parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("You are not admin.\n/start")
 
 
 
@@ -241,15 +240,15 @@ async def view_reactions(update: Update, context: CallbackContext) -> None:
                         f"Dislikes: {reactions['dislike']}\n"
                         f"Viewed by: {len(viewed_by)} users"
                     )
-                    await update.message.reply_text(reactions_text, parse_mode=ParseMode.MARKDOWN)
+                    await update.message.reply_text(reactions_text)
                 else:
-                    await update.message.reply_text("Post ID not found.", parse_mode=ParseMode.MARKDOWN)
+                    await update.message.reply_text("Post ID not found.")
             except ValueError:
-                await update.message.reply_text("Invalid post ID format.", parse_mode=ParseMode.MARKDOWN)
+                await update.message.reply_text("Invalid post ID format.")
         else:
-            await update.message.reply_text("Please provide a post ID to view reactions.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("Please provide a post ID to view reactions.")
     else:
-        await update.message.reply_text("You are not admin.\n/start", parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("You are not admin.\n/start")
 
 # Handle callback queries
 async def callback_handler(update: Update, context: CallbackContext) -> None:
@@ -269,17 +268,17 @@ async def callback_handler(update: Update, context: CallbackContext) -> None:
             "/block <username> - Block a subscriber\n"
             "/unblock <username> - Unblock a subscriber"
         )
-        await query.message.reply_text(help_text, parse_mode=ParseMode.MARKDOWN)
+        await query.message.reply_text(help_text)
     elif data == 'settings':
         await settings(update, context)
     elif data == 'remove_subscriber_command':
         if is_owner(user_id):
-            await query.message.reply_text("/remove_subscriber", parse_mode=ParseMode.MARKDOWN)
+            await query.message.reply_text("/remove_subscriber")
         else:
-            await query.answer("You are not admin.\n/start", parse_mode=ParseMode.MARKDOWN)
+            await query.answer("You are not admin.\n/start")
     elif data == 'view_subscribers_command':
         if is_owner(user_id):
-            await query.message.reply_text("/view_subscribers", parse_mode=ParseMode.MARKDOWN)
+            await query.message.reply_text("/view_subscribers")
         else:
             await query.answer("You are not admin.\n/start")
     elif data.startswith('like_') or data.startswith('dislike_'):
@@ -316,13 +315,13 @@ async def block_subscriber(update: Update, context: CallbackContext) -> None:
             
             if user_to_block:
                 blocked_users.add(user_to_block)
-                await update.message.reply_text(f"Subscriber @{username} has been blocked.", parse_mode=ParseMode.MARKDOWN)
+                await update.message.reply_text(f"Subscriber @{username} has been blocked.")
             else:
-                await update.message.reply_text(f"Subscriber @{username} not found.", parse_mode=ParseMode.MARKDOWN)
+                await update.message.reply_text(f"Subscriber @{username} not found.")
         else:
-            await update.message.reply_text("Please provide the username to block.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("Please provide the username to block.")
     else:
-        await update.message.reply_text("You are not admin.\n/start", parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("You are not admin.\n/start")
 
 # Unblock a subscriber
 async def unblock_subscriber(update: Update, context: CallbackContext) -> None:
@@ -341,13 +340,13 @@ async def unblock_subscriber(update: Update, context: CallbackContext) -> None:
             
             if user_to_unblock:
                 blocked_users.remove(user_to_unblock)
-                await update.message.reply_text(f"Subscriber @{username} has been unblocked.", parse_mode=ParseMode.MARKDOWN)
+                await update.message.reply_text(f"Subscriber @{username} has been unblocked.")
             else:
-                await update.message.reply_text(f"Subscriber @{username} not found.", parse_mode=ParseMode.MARKDOWN)
+                await update.message.reply_text(f"Subscriber @{username} not found.")
         else:
-            await update.message.reply_text("Please provide the username to unblock.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("Please provide the username to unblock.")
     else:
-        await update.message.reply_text("You are not admin.\n/start", parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("You are not admin.\n/start")
         
 # Command Handlers for /on and /off commands
 async def subscribe(update: Update, context: CallbackContext) -> None:
@@ -355,11 +354,11 @@ async def subscribe(update: Update, context: CallbackContext) -> None:
     if user_id == OWNER_ID or user_id in authenticated_users:
         if user_id not in subscribers:
             subscribers.add(user_id)
-            await update.message.reply_text("You have been subscribed.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("You have been subscribed.")
         else:
-            await update.message.reply_text("You are already subscribed.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("You are already subscribed.")
     else:
-        await update.message.reply_text("You are not admin.\n/start", parse_mode=ParseMode.MARKDOWN)
+        await update.message.reply_text("You are not admin.\n/start")
 
 async def unsubscribe(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
@@ -367,11 +366,11 @@ async def unsubscribe(update: Update, context: CallbackContext) -> None:
         if user_id in subscribers:
             subscribers.remove(user_id)
             authenticated_users.discard(user_id)  # Discard authentication on unsubscribe
-            await update.message.reply_text("Your subscription is paused.\nPlease enter password to subscribe!", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("Your subscription is paused.\nPlease enter password to subscribe!")
         else:
-            await update.message.reply_text("You are not subscribed.", parse_mode=ParseMode.MARKDOWN)
+            await update.message.reply_text("You are not subscribed.")
     else:
-        await update.message.reply_text("You are not admin.\n/start", parse_mode=ParseMode.MARKDOWN)        
+        await update.message.reply_text("You are not admin.\n/start")        
 
 # Main function to run the bot
 def main() -> None:
