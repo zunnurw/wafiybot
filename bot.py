@@ -13,7 +13,7 @@ dotenv.load_dotenv()
 
 TOKEN = os.getenv('TOKEN')  # Replace with your Bot Token
 PASSWORD = os.getenv('PASSWORD')  # Set your password here
-OWNER_ID = os.getenv('OWNER_ID')  # Set the owner's Telegram ID here
+OWNER_ID = int os.getenv('OWNER_ID')  # Set the owner's Telegram ID here
 
 # Store authenticated users and subscribers
 authenticated_users = set()
