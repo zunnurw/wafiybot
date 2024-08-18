@@ -24,6 +24,14 @@ Welcome to **𝗪𝗮𝗳𝗶𝘆𝕭𝖔𝖙𝓥2**! This Telegram bot allows y
   <img src="overview/3.png" alt="Features 3" width="300"/>
 </div>
 
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request for any features or bug fixes.
+
+## License
+
+This project is licensed under the MIT License.
+
 ## Installation
 
 To run **𝗪𝗮𝗳𝗶𝘆𝕭𝖔𝖙𝓥2** locally, you need to set up the bot environment and install the required dependencies.
@@ -46,34 +54,3 @@ To run **𝗪𝗮𝗳𝗶𝘆𝕭𝖔𝖙𝓥2** locally, you need to set up the
 
 4. Create a `.env` file and set up your environment variables, including the bot token and any other required settings.
 
-## Usage
-
-To start the bot, run the following command:
-
-```bash
-python bot.py
-
-Ensure that your bot is properly configured and connected to Telegram before running the command.
-
-Contributing
-Contributions are welcome! Please fork the repository and submit a pull request for any features or bug fixes.
-
-License
-This project is licensed under the MIT License.
-
-### Steps to Add the `README.md` to Your Repository
-
-1. **Create the `README.md` File:**
-   - In your project directory, create a file named `README.md`.
-   - Copy and paste the above content into the file.
-
-2. **Add the `README.md` to Git:**
-   ```bash
-   git add README.md
-
-3. Commit the Changes:
-    bash
-    git commit -m "Add README file for 𝗪𝗮𝗳𝗶𝘆𝕭𝖔𝖙𝓥2"
-
-3. Push the Changes:
-    git push origin master
