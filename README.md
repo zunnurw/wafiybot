@@ -2,6 +2,7 @@
 
 Welcome to **𝗪𝗮𝗳𝗶𝘆𝕭𝖔𝖙𝓥2**! This Telegram bot allows you to manage subscribers and post messages to all users.
 **𝗪𝗮𝗳𝗶𝘆𝕭𝖔𝖙𝓥2** includes features that are not available through BotFather or Manybot.
+
 **𝗪𝗮𝗳𝗶𝘆𝕭𝖔𝖙𝓥2** Does not use promotion message.
 
 ## Commands
