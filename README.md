@@ -16,6 +16,14 @@ Welcome to **𝗪𝗮𝗳𝗶𝘆𝕭𝖔𝖙𝓥2**! This Telegram bot allows y
 - **/block `<username>`:** Block a subscriber.
 - **/unblock `<username>`:** Unblock a subscriber.
 
+## Overview
+
+<div>
+  <img src="overview/1.png" alt="Features 1" width="300"/>
+  <img src="overview/2.png" alt="Features 2" width="300"/>
+  <img src="overview/3.png" alt="Features 3" width="300"/>
+</div>
+
 ## Installation
 
 To run **𝗪𝗮𝗳𝗶𝘆𝕭𝖔𝖙𝓥2** locally, you need to set up the bot environment and install the required dependencies.
